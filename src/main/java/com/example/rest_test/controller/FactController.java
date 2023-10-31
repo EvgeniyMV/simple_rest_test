@@ -2,6 +2,7 @@ package com.example.rest_test.controller;
 import com.example.rest_test.model.Fact;
 import com.example.rest_test.model.FactAuthor;
 import com.example.rest_test.service.FactService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,8 @@ public class FactController {
 
     @PostMapping(value = "/facts")
     public ResponseEntity<?> create(@RequestBody Fact fact) {
-        factService.create(fact);
         System.out.println(fact.toString());
+        factService.create(fact);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -45,13 +46,13 @@ public class FactController {
         return responseList.isEmpty()? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/facts/{id}")
+    @PutMapping(value = "/facts/id={id}")
     public ResponseEntity<?> update (@PathVariable(name = "id") int factId, @RequestBody Fact fact) {
         var updated = factService.update(fact, factId);
         return updated? new  ResponseEntity<> (HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping(value = "/facts/{id}")
+    @DeleteMapping(value = "/facts/id={id}")
     public ResponseEntity<?> delete (@PathVariable(name = "id") int factId) {
         var deleted = factService.delete(factId);
         return deleted? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -31,8 +31,10 @@ public class FactServiceImpl  implements FactService {
 
     @Override
     public boolean update(Fact fact, int factId) {
+        System.out.println(factId);
         if(factBase.containsKey(factId) && fact != null) {
             factBase.put(factId, fact);
+            fact.setId(factId);
             return true;
         }
         return false;
